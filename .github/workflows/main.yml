@@ -20,12 +20,12 @@ jobs:
         with:
           activate-environment: swarm
           environment-file: environment.yml
-      - name: Build environment
       - name: Setup tmate session
         uses: mxschmitt/action-tmate@v3
         with:
           sudo: false
-      - run: |
+      - name: Build environment
+        run: |
           set -x -euo pipefail
 
           pip install chaosmagpy
