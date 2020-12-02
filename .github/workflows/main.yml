@@ -20,9 +20,9 @@ jobs:
         with:
           activate-environment: swarm
           environment-file: environment.yml
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-        continue-on-error: true
+      # - name: Setup tmate session
+      #   uses: mxschmitt/action-tmate@v3
+      #   continue-on-error: true
       - name: Build environment
         run: |
           set -x -euo pipefail
