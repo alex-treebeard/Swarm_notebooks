@@ -16,11 +16,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
       - uses: conda-incubator/setup-miniconda@v2
         with:
+          python-version: 3.8
+          activate-environment: teachopencadd
+          channel-priority: true
           environment-file: environment.yml
-      - run: conda init bash
-      - run: conda activate swarm
+          auto-activate-base: false
+
       # - name: Setup tmate session
       #   uses: mxschmitt/action-tmate@v3
       #   continue-on-error: true
