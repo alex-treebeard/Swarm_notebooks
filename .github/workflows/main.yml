@@ -12,7 +12,7 @@ on:
 jobs:
   run:
     runs-on: ubuntu-latest
-    name: Run treebeard
+    name: Test
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -22,8 +22,7 @@ jobs:
           environment-file: environment.yml
       - name: Setup tmate session
         uses: mxschmitt/action-tmate@v3
-        with:
-          sudo: false
+        continue-on-error: true
       - name: Build environment
         run: |
           set -x -euo pipefail
