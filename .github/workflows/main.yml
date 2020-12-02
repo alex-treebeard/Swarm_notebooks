@@ -21,7 +21,7 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v2
         with:
           python-version: 3.8
-          activate-environment: teachopencadd
+          activate-environment: swarm
           channel-priority: true
           environment-file: environment.yml
           auto-activate-base: false
