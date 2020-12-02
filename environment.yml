@@ -1,3 +1,4 @@
+name: swarm
 channels:
   - conda-forge
 dependencies:
@@ -24,3 +25,5 @@ dependencies:
       - python-dotenv
       - hdf5storage # for chaosmagpy
       - netCDF4
+      - git+https://github.com/treebeardtech/nbmake.git@err-view
+      - pytest-xdist
