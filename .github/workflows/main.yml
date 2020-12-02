@@ -41,7 +41,7 @@ jobs:
 
           conda build MagneticModel/libcdf
           conda build MagneticModel/qdipole
-          conda install -c file://${CONDA_PREFIX}/conda-bld/ my_package qdipole cdf
+          conda install -c file://${CONDA_PREFIX}/conda-bld/ qdipole cdf
 
           pip install python_dateutil
           pip install --no-deps spacepy
