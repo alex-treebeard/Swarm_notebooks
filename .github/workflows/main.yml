@@ -31,7 +31,6 @@ jobs:
       - run: |
             bash -c 'cd MagneticModel/qdipole && ./configure && make build && sudo make install'
       - run: pip install scipy
-      - run: pip install MagneticModel/eoxmagmod/
       - uses: conda-incubator/setup-miniconda@v2
         with:
           python-version: 3.8
@@ -39,6 +38,7 @@ jobs:
           channel-priority: true
           environment-file: environment.yml
           auto-activate-base: false
+      - run: pip install MagneticModel/eoxmagmod/
       # - name: Setup tmate session
       #   uses: mxschmitt/action-tmate@v3
       - run: pytest --nbmake -n=auto notebooks
