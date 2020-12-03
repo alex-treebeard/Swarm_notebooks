@@ -21,31 +21,44 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: 3.8
-      - uses: conda-incubator/setup-miniconda@v2
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+      - uses: actions/checkout@v2
         with:
-          python-version: 3.8
-          activate-environment: swarm
-          channel-priority: true
-          environment-file: environment.yml
-          auto-activate-base: false
-      - run: conda info
-      - name: Build environment
-        run: |
-          set -x -euo pipefail
+          repository: "ESA-VirES/MagneticModel"
+          ref: 9eee738
+          path: MagneticModel
+      - run: |
+            cd MagneticModel/libcdf && make build && sudo make install
+      - run: |
+            cd MagneticModel/qdipole && ./configure && make build && sudo make install
+      - run: pip install scipy
+      - run: pip install MagneticModel/eoxmagmod/
+      # - uses: conda-incubator/setup-miniconda@v2
+      #   with:
+      #     python-version: 3.8
+      #     activate-environment: swarm
+      #     channel-priority: true
+      #     environment-file: environment.yml
+      #     auto-activate-base: false
+      # - run: conda info
+      # - name: Build environment
+      #   run: |
+      #     set -x -euo pipefail
 
-          pip install chaosmagpy
+      #     pip install chaosmagpy
 
-          wget --no-verbose https://github.com/ESA-VirES/MagneticModel/archive/master.zip -O MagneticModel.zip
-          unzip MagneticModel.zip
-          mv MagneticModel-master MagneticModel
+      #     wget --no-verbose https://github.com/ESA-VirES/MagneticModel/archive/master.zip -O MagneticModel.zip
+      #     unzip MagneticModel.zip
+      #     mv MagneticModel-master MagneticModel
 
-          conda build MagneticModel/libcdf
-          conda build MagneticModel/qdipole
-          conda install -c file://${CONDA_PREFIX}/conda-bld/ qdipole cdf
+      #     conda build MagneticModel/libcdf
+      #     conda build MagneticModel/qdipole
+      #     conda install -c file://${CONDA_PREFIX}/conda-bld/ qdipole cdf
 
-          pip install python_dateutil
-          pip install --no-deps spacepy
+      #     pip install python_dateutil
+      #     pip install --no-deps spacepy
 
-          pip install MagneticModel/eoxmagmod
-          pip install swarmpyfac
-      - run: pytest --nbmake -n=auto notebooks
+      #     pip install MagneticModel/eoxmagmod
+      #     pip install swarmpyfac
+      # - run: pytest --nbmake -n=auto notebooks
