@@ -21,44 +21,27 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: 3.8
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: 3.8
+          activate-environment: swarm
+          channel-priority: true
+          environment-file: environment.yml
+          auto-activate-base: false
       - uses: actions/checkout@v2
         with:
           repository: "ESA-VirES/MagneticModel"
-          ref: 9eee738
+          ref: 9eee7382a9f896a42f5032fdb38e650eba9861fa
           path: MagneticModel
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
+      # - name: Setup tmate session
+      #   uses: mxschmitt/action-tmate@v3
       - run: |
-            cd MagneticModel/libcdf && make build && sudo make install
+            bash -c 'cd MagneticModel/libcdf && make build && sudo make install'
       - run: |
-            cd MagneticModel/qdipole && ./configure && make build && sudo make install
+            bash -c 'cd MagneticModel/qdipole && ./configure && make build && sudo make install'
       - run: pip install scipy
       - run: pip install MagneticModel/eoxmagmod/
-      # - uses: conda-incubator/setup-miniconda@v2
-      #   with:
-      #     python-version: 3.8
-      #     activate-environment: swarm
-      #     channel-priority: true
-      #     environment-file: environment.yml
-      #     auto-activate-base: false
-      # - run: conda info
-      # - name: Build environment
-      #   run: |
-      #     set -x -euo pipefail
-
-      #     pip install chaosmagpy
-
-      #     wget --no-verbose https://github.com/ESA-VirES/MagneticModel/archive/master.zip -O MagneticModel.zip
-      #     unzip MagneticModel.zip
-      #     mv MagneticModel-master MagneticModel
-
-      #     conda build MagneticModel/libcdf
-      #     conda build MagneticModel/qdipole
-      #     conda install -c file://${CONDA_PREFIX}/conda-bld/ qdipole cdf
-
-      #     pip install python_dateutil
-      #     pip install --no-deps spacepy
-
-      #     pip install MagneticModel/eoxmagmod
-      #     pip install swarmpyfac
-      # - run: pytest --nbmake -n=auto notebooks
+      - run: pip install chaosmagpy
+      - run: pip install python_dateutil
+      - run: pip install swarmpyfac
+      - run: pytest --nbmake -n=auto notebooks
