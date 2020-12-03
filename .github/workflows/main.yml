@@ -21,6 +21,17 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: 3.8
+      - uses: actions/checkout@v2
+        with:
+          repository: "ESA-VirES/MagneticModel"
+          ref: 9eee7382a9f896a42f5032fdb38e650eba9861fa
+          path: MagneticModel
+      - run: |
+            bash -c 'cd MagneticModel/libcdf && make build && sudo make install'
+      - run: |
+            bash -c 'cd MagneticModel/qdipole && ./configure && make build && sudo make install'
+      - run: pip install scipy
+      - run: pip install MagneticModel/eoxmagmod/
       - uses: conda-incubator/setup-miniconda@v2
         with:
           python-version: 3.8
@@ -28,20 +39,6 @@ jobs:
           channel-priority: true
           environment-file: environment.yml
           auto-activate-base: false
-      - uses: actions/checkout@v2
-        with:
-          repository: "ESA-VirES/MagneticModel"
-          ref: 9eee7382a9f896a42f5032fdb38e650eba9861fa
-          path: MagneticModel
-      # - name: Setup tmate session
-      #   uses: mxschmitt/action-tmate@v3
-      - run: |
-            bash -c 'cd MagneticModel/libcdf && make build && sudo make install'
-      - run: |
-            bash -c 'cd MagneticModel/qdipole && ./configure && make build && sudo make install'
-      - run: pip install scipy
-      - run: pip install MagneticModel/eoxmagmod/
-      - run: pip install chaosmagpy
-      - run: pip install python_dateutil
-      - run: pip install swarmpyfac
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
       - run: pytest --nbmake -n=auto notebooks
