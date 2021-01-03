@@ -7,8 +7,6 @@ on:
     branches:
       - master
       - staging
-  schedule:
-    - cron: "0 0 * * 0" # weekly
 jobs:
   run:
     runs-on: ubuntu-latest
